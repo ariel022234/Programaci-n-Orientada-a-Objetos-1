@@ -1,0 +1,40 @@
+import aves.*
+import direcciones.*
+import silvestre.*
+import alimentos.*
+import obstaculos.*
+import estados.*
+
+import wollok.game.*
+
+
+program PepitaGame {
+	var cantAlimento = 0 
+
+	game.title("Pepita")
+	game.height(10)
+	game.width(10)
+	game.boardGround("fondo2.jpg")
+
+	game.addVisual(silvestre)
+	game.addVisual(muro)
+	game.onTick(3000, "Respawn comida", {if (cantAlimento < 3) {
+										   spawnAlimento.generar()
+										   cantAlimento += 1       }   })
+	game.addVisual(nido)
+	game.addVisual(pepita)
+	
+
+	keyboard.left().onPressDo({ pepita.mover(izquierda)})
+	keyboard.right().onPressDo({ pepita.mover(derecha)})
+	keyboard.up().onPressDo({ pepita.mover(arriba)})
+	keyboard.down().onPressDo({ pepita.mover(abajo)})
+	keyboard.c().onPressDo(  {pepita.comer(game.uniqueCollider(pepita))
+							 game.removeVisual(game.uniqueCollider(pepita))}  ) //Comer el alimento y elimina el visual						 
+
+	
+
+
+	game.start() 
+	
+}
